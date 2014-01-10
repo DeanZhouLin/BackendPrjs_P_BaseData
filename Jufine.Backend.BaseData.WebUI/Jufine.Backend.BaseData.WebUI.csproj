@@ -58,9 +58,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\ReffDll\Com.BaseLibrary\Com.BaseLibrary.Web.dll</HintPath>
     </Reference>
-    <Reference Include="Jufine.Backend.Security.Authentication">
-      <HintPath>..\..\Security\Jufine.Backend.Security.Authentication\bin\Debug\Jufine.Backend.Security.Authentication.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
