@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BaseDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="BaseDataModelStoreContainer">
+          <EntitySet Name="AreaGroup" EntityType="BaseDataModel.Store.AreaGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AreaInfo" EntityType="BaseDataModel.Store.AreaInfo" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CodeValueInfo" EntityType="BaseDataModel.Store.CodeValueInfo" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FlatAreaData" EntityType="BaseDataModel.Store.FlatAreaData" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FlatAreaDistrict" EntityType="BaseDataModel.Store.FlatAreaDistrict" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UV_AreaInfo" EntityType="BaseDataModel.Store.UV_AreaInfo" store:Type="Views" store:Schema="dbo" store:Name="UV_AreaInfo">
+            <DefiningQuery>SELECT 
+      [UV_AreaInfo].[ProvinceID] AS [ProvinceID], 
+      [UV_AreaInfo].[ProvinceName] AS [ProvinceName], 
+      [UV_AreaInfo].[CityID] AS [CityID], 
+      [UV_AreaInfo].[CityName] AS [CityName], 
+      [UV_AreaInfo].[ID] AS [ID], 
+      [UV_AreaInfo].[AreaName] AS [AreaName]
+      FROM [dbo].[UV_AreaInfo] AS [UV_AreaInfo]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+        <EntityType Name="AreaGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="GroupCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="GroupName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="AreaID" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="DisplayOrder" Type="int" />
+          <Property Name="CreateUser" Type="varchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="EditUser" Type="varchar" MaxLength="50" />
+          <Property Name="EditDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="AreaInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="AreaName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="AreaCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="AreaPath" Type="nvarchar" MaxLength="100" />
+          <Property Name="DisplayOrder" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreateUser" Type="varchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="EditUser" Type="varchar" MaxLength="50" />
+          <Property Name="EditDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CodeValueInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CodeValue" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CodeText" Type="nvarchar" Nullable="false" MaxLength="400" />
+          <Property Name="GroupCode" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="GroupName" Type="nvarchar" />
+          <Property Name="DisplayOrder" Type="int" />
+          <Property Name="Status" Type="int" />
+          <Property Name="CreateUser" Type="varchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="EditUser" Type="varchar" MaxLength="50" />
+          <Property Name="EditDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FlatAreaData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AreaID" Type="varchar" MaxLength="50" />
+          <Property Name="ProvinceName" Type="nvarchar" MaxLength="200" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DistinctName" Type="nvarchar" MaxLength="200" />
+          <Property Name="TownName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="FlatAreaDistrict">
+          <Key>
+            <PropertyRef Name="DistrictID" />
+          </Key>
+          <Property Name="DistrictID" Type="int" Nullable="false" />
+          <Property Name="DistrictName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ProvinceID" Type="int" Nullable="false" />
+          <Property Name="ProvinceName" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+      警告 6002: 表/视图“BaseData.dbo.UV_AreaInfo”未定义主键。已推断出该键，并将定义创建为只读的表/视图。
+      -->
+        <EntityType Name="UV_AreaInfo">
+          <Key>
+            <PropertyRef Name="ProvinceID" />
+            <PropertyRef Name="CityID" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ProvinceID" Type="int" Nullable="false" />
+          <Property Name="ProvinceName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="AreaName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Jufine.Backend.BaseData.DataContracts" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="BaseDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AreaGroup" EntityType="Jufine.Backend.BaseData.DataContracts.AreaGroup" />
+          <EntitySet Name="AreaInfo" EntityType="Jufine.Backend.BaseData.DataContracts.AreaInfo" />
+          <EntitySet Name="CodeValueInfo" EntityType="Jufine.Backend.BaseData.DataContracts.CodeValueInfo" />
+          <EntitySet Name="FlatAreaData" EntityType="Jufine.Backend.BaseData.DataContracts.FlatAreaData" />
+          <EntitySet Name="FlatAreaDistrict" EntityType="Jufine.Backend.BaseData.DataContracts.FlatAreaDistrict" />
+          <EntitySet Name="UVAreaInfo" EntityType="Jufine.Backend.BaseData.DataContracts.UVAreaInfo" />
+        </EntityContainer>
+        <EntityType Name="AreaGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="GroupCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="GroupName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="AreaID" Nullable="false" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="Int32" Name="DisplayOrder" />
+          <Property Type="String" Name="CreateUser" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreateDate" Precision="3" />
+          <Property Type="String" Name="EditUser" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="EditDate" Precision="3" />
+        </EntityType>
+        <EntityType Name="AreaInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ParentID" />
+          <Property Type="String" Name="AreaName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ShortName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AreaCode" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AreaPath" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DisplayOrder" />
+          <Property Type="Int32" Name="Status" />
+          <Property Type="String" Name="CreateUser" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreateDate" Precision="3" />
+          <Property Type="String" Name="EditUser" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="EditDate" Precision="3" />
+        </EntityType>
+        <EntityType Name="CodeValueInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CodeValue" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CodeText" Nullable="false" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GroupCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="GroupName" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="DisplayOrder" />
+          <Property Type="Int32" Name="Status" />
+          <Property Type="String" Name="CreateUser" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreateDate" Precision="3" />
+          <Property Type="String" Name="EditUser" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="EditDate" Precision="3" />
+        </EntityType>
+        <EntityType Name="FlatAreaData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="AreaID" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ProvinceName" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CityName" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DistinctName" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TownName" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FlatAreaDistrict">
+          <Key>
+            <PropertyRef Name="DistrictID" />
+          </Key>
+          <Property Type="Int32" Name="DistrictID" Nullable="false" />
+          <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CityID" Nullable="false" />
+          <Property Type="String" Name="CityName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ProvinceID" Nullable="false" />
+          <Property Type="String" Name="ProvinceName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UVAreaInfo">
+          <Key>
+            <PropertyRef Name="ProvinceID" />
+            <PropertyRef Name="CityID" />
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ProvinceID" Nullable="false" />
+          <Property Type="String" Name="ProvinceName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CityID" Nullable="false" />
+          <Property Type="String" Name="CityName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="AreaName" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BaseDataModelStoreContainer" CdmEntityContainer="BaseDataEntities">
+          <EntitySetMapping Name="AreaGroup">
+            <EntityTypeMapping TypeName="Jufine.Backend.BaseData.DataContracts.AreaGroup">
+              <MappingFragment StoreEntitySet="AreaGroup">
+                <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+                <ScalarProperty Name="EditUser" ColumnName="EditUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AreaID" ColumnName="AreaID" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AreaInfo">
+            <EntityTypeMapping TypeName="Jufine.Backend.BaseData.DataContracts.AreaInfo">
+              <MappingFragment StoreEntitySet="AreaInfo">
+                <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+                <ScalarProperty Name="EditUser" ColumnName="EditUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="AreaPath" ColumnName="AreaPath" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CodeValueInfo">
+            <EntityTypeMapping TypeName="Jufine.Backend.BaseData.DataContracts.CodeValueInfo">
+              <MappingFragment StoreEntitySet="CodeValueInfo">
+                <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+                <ScalarProperty Name="EditUser" ColumnName="EditUser" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+                <ScalarProperty Name="CodeText" ColumnName="CodeText" />
+                <ScalarProperty Name="CodeValue" ColumnName="CodeValue" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlatAreaData">
+            <EntityTypeMapping TypeName="Jufine.Backend.BaseData.DataContracts.FlatAreaData">
+              <MappingFragment StoreEntitySet="FlatAreaData">
+                <ScalarProperty Name="TownName" ColumnName="TownName" />
+                <ScalarProperty Name="DistinctName" ColumnName="DistinctName" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="AreaID" ColumnName="AreaID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlatAreaDistrict">
+            <EntityTypeMapping TypeName="Jufine.Backend.BaseData.DataContracts.FlatAreaDistrict">
+              <MappingFragment StoreEntitySet="FlatAreaDistrict">
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UVAreaInfo">
+            <EntityTypeMapping TypeName="Jufine.Backend.BaseData.DataContracts.UVAreaInfo">
+              <MappingFragment StoreEntitySet="UV_AreaInfo">
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="BaseData" ZoomLevel="90">
+        <EntityTypeShape EntityType="Jufine.Backend.BaseData.DataContracts.AreaGroup" Width="1.5" PointX="0.75" PointY="0.75" Height="2.9251310221354165" />
+        <EntityTypeShape EntityType="Jufine.Backend.BaseData.DataContracts.AreaInfo" Width="1.5" PointX="2.75" PointY="0.75" Height="3.3071704101562496" />
+        <EntityTypeShape EntityType="Jufine.Backend.BaseData.DataContracts.CodeValueInfo" Width="1.5" PointX="4.75" PointY="0.75" Height="3.1161507161458317" />
+        <EntityTypeShape EntityType="Jufine.Backend.BaseData.DataContracts.FlatAreaData" Width="1.5" PointX="4.75" PointY="4.75" Height="2.1610522460937496" />
+        <EntityTypeShape EntityType="Jufine.Backend.BaseData.DataContracts.FlatAreaDistrict" Width="1.5" PointX="0.75" PointY="5.75" Height="2.1610522460937496" />
+        <EntityTypeShape EntityType="Jufine.Backend.BaseData.DataContracts.UVAreaInfo" Width="1.5" PointX="7.375" PointY="3.75" Height="2.1610522460937496" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
